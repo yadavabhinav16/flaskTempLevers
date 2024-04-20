@@ -4,13 +4,14 @@ from sqlalchemy import and_
 
 def create_bill_object(total,sub_bills):
     bill = Bill(total=total)
+    #Adding all sub_bills to the Bill object to be persisited
     for sub_bill in sub_bills:
         sub_bill_obj = SubBill(amount=sub_bill["amount"], reference=sub_bill.get("reference"))
         bill.sub_bills.append(sub_bill_obj)
 
     db.session.add(bill)
     db.session.commit()
-    return True
+    return True #False case can be added in case of exception handling
 
 def get_filtered_bills(reference, total_from, total_to):
     # Building the query based on filters
